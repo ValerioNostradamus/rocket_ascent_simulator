@@ -7,9 +7,11 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(SOURCES
         src/main.cpp
-        src/rocket/rocket.cpp
         src/environment/environment.cpp
+        src//helper/data_handling.cpp
         src/integrator/integrator.cpp
+        src/rocket/motor.cpp
+        src/rocket/rocket.cpp
 )
 
 # 2. Pass the list to your executable
