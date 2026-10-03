@@ -12,7 +12,7 @@ namespace RAS {
     class DataCurve {
     private:
         std::vector<DataPoint> points;
-        int method;
+        int method{0};
 
     public:
         DataCurve();

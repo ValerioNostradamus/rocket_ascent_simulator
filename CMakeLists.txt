@@ -10,6 +10,7 @@ set(SOURCES
         src/environment/environment.cpp
         src//helper/data_handling.cpp
         src/integrator/integrator.cpp
+        src/io/basic_ui.cpp
         src/rocket/motor.cpp
         src/rocket/rocket.cpp
 )

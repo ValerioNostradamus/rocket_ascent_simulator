@@ -1,28 +1,19 @@
 #include <iostream>
+#include <cstdlib>
+#include "environment/environment.h"
 #include "helper/data_handling.h"
+#include "integrator/integrator.h"
+#include "io/basic_ui.h"
 #include "rocket/rocket.h"
+#include "rocket/motor.h"
 
 int main() {
-    RAS::Rocket rocket;
-    rocket.info();
-    char a{'0'};
-    std::string file_path;
-    std::string method;
-    double interpole_to;
+    RAS::menu();
 
-    std::cout << "filepath:\t";
-    std::cin >> file_path;
-    std::cout << "method:\t";
-    std::cin >> method;
-    RAS::DataCurve data_curve(method);
-    data_curve.loadCSV(file_path);
+    int result = std::system("python3 ../python/plots.py");
 
-    while (a != 'q') {
-        std::cout << "interpole to: ";
-        std::cin >> interpole_to;
-        std::cout << "result: " << data_curve.interpolate(interpole_to);
-        std::cout << "\ninsert q to exit, or anything to continue: ";
-        std::cin >> a;
+    if (result != 0) {
+        std::cerr << "Failed to run Python script.\n";
     }
 
     return 0;
