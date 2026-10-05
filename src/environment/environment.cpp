@@ -82,17 +82,26 @@ namespace RAS {
         std::cout << "\n\n";
     }
     // to be implemented
-    SecondAtmosphere::SecondAtmosphere() {
-        initializeSecondAtmosphere();
+    GRAMAtmosphere::GRAMAtmosphere() {
+        initializeGRAMAtmosphere();
     }
-    void SecondAtmosphere::initializeSecondAtmosphere() {
+
+    GRAMAtmosphere::GRAMAtmosphere(GRAMInput input) {
+        initializeGRAMAtmosphere(input);
+    }
+
+    void GRAMAtmosphere::initializeGRAMAtmosphere() {
 
     }
-    AirState SecondAtmosphere::getAirState(double altitude) const {
+    void GRAMAtmosphere::initializeGRAMAtmosphere(GRAMInput input) {
+
+    }
+
+    AirState GRAMAtmosphere::getAirState(double altitude) const {
 
         return AirState(0.0,0.0,0.0,0.0);
     }
-    void SecondAtmosphere::info() const {
+    void GRAMAtmosphere::info() const {
 
     }
 }
