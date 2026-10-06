@@ -27,19 +27,19 @@ namespace RAS {
         std::string ListFileName;
         std::string ColumnFileName;
 
-        int year;
-        int month;
-        int day;
-        int hour;
-        int minute;
-        double second;
+        int Year{2000};
+        int Month{1};
+        int Day{1};
+        int Hour{0};
+        int Minute{0};
+        double Second{0.0};
 
         double RandomPerturbationScale{1.6};
         double HorizontalWindPerturbationScale{1.75};
         double VerticalWindPerturbationScale{2.0};
 
         int NumberOfMonteCarloRuns{1};
-        int model{static_cast<int>(GRAMModel::MET)};
+        int ThermosphereModel{static_cast<int>(GRAMModel::MET)};
 
         bool InitializePerturbations{false};
         double InitialDensityPerturbation{0};
@@ -80,10 +80,11 @@ namespace RAS {
     class GRAMAtmosphere : public Atmosphere {
     private:
         void initializeGRAMAtmosphere();
-        void initializeGRAMAtmosphere(GRAMInput input);
+        void initializeGRAMAtmosphere(const GRAMInput& input);
+        bool createGRAMInputFile(const GRAMInput& input);
     public:
         GRAMAtmosphere();
-        GRAMAtmosphere(GRAMInput input);
+        GRAMAtmosphere(const GRAMInput& input);
         [[nodiscard]] AirState getAirState(double altitude) const override;
         void info() const override;
     };

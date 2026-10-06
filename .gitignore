@@ -80,3 +80,6 @@ Testing/
 /dataSources.local.xml
 
 .idea/
+
+# output files
+output/

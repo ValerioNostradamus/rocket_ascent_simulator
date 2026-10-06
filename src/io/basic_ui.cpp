@@ -7,8 +7,8 @@
 namespace RAS {
     bool menu() {
         char flag{'0'};
-        std::unique_ptr<RAS::Atmosphere> env;
-        env = std::unique_ptr<RAS::Atmosphere>();
+        std::unique_ptr<RAS::Atmosphere> env =
+            std::unique_ptr<RAS::Atmosphere>();
 
         std::string model;
         std::cout << "env model: ";
@@ -16,6 +16,9 @@ namespace RAS {
 
         if (model == "ISA") {
             env = std::make_unique<RAS::ISAAtmosphere>();
+        }
+        if (model == "GRAM") {
+            std::make_unique<RAS::GRAMAtmosphere >();
         } else {
             // temporary
             std::cout << "unknown model, defaulting to ISA.\n";

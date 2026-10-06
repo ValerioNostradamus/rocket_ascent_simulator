@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iostream>
 #include <ostream>
+#include <fstream>
 #include <iomanip>
 
 namespace RAS {
@@ -81,20 +82,94 @@ namespace RAS {
         }
         std::cout << "\n\n";
     }
-    // to be implemented
+    // gram
     GRAMAtmosphere::GRAMAtmosphere() {
         initializeGRAMAtmosphere();
     }
+    void GRAMAtmosphere::initializeGRAMAtmosphere() {
+        // not put into the defaults for the struct to be able to allocate
+        // based on a config file (maybe?) or in some other way
+        const GRAMInput input{
+            "spice_path",
+            "data_path",
+            "list_file_name",
+            "col_file_name"
+        };
+        createGRAMInputFile(input);
+        // then calls the .exe
+    }
 
-    GRAMAtmosphere::GRAMAtmosphere(GRAMInput input) {
+    GRAMAtmosphere::GRAMAtmosphere(const GRAMInput& input) {
         initializeGRAMAtmosphere(input);
     }
-
-    void GRAMAtmosphere::initializeGRAMAtmosphere() {
-
+    void GRAMAtmosphere::initializeGRAMAtmosphere(const GRAMInput& input) {
+        createGRAMInputFile(input);
+        // then calls the .exe
     }
-    void GRAMAtmosphere::initializeGRAMAtmosphere(GRAMInput input) {
 
+    bool GRAMAtmosphere::createGRAMInputFile(const GRAMInput& input) {
+        if (input.SpicePath.empty() || input.DataPath.empty()
+            || input.ListFileName.empty() || input.ColumnFileName.empty()) {
+            return false;
+            }
+
+        std::ofstream outfile("../output/gram_interface/ref_input.txt");
+        if (!outfile.is_open()) {
+            return false;
+        }
+
+        outfile << "&INPUT\n";
+
+        outfile << "  SpicePath = '" << input.SpicePath << "'\n";
+        outfile << "  DataPath = '" << input.DataPath << "'\n";
+        outfile << "  ListFileName = '" << input.ListFileName << "'\n";
+        outfile << "  ColumnFileName = '" << input.ColumnFileName << "'\n";
+
+        outfile << "  Day = " << input.Day << "\n";
+        outfile << "  Month = " << input.Month << "\n";
+        outfile << "  Year = " << input.Year << "\n";
+        outfile << "  Hour = " << input.Hour << "\n";
+        outfile << "  Minute = " << input.Minute << "\n";
+        outfile << "  Second = " << input.Second << "\n";
+
+        outfile << "  RandomPerturbationScale = "
+            << input.RandomPerturbationScale << "\n";
+        outfile << "  HorizontalWindPerturbationScale = "
+            << input.HorizontalWindPerturbationScale << "\n";
+        outfile << "  VerticalWindPerturbationScale = "
+            << input.VerticalWindPerturbationScale << "\n";
+
+        outfile << "  NumberOfMonteCarloRuns = "
+            << input.NumberOfMonteCarloRuns << "\n";
+        outfile << "  ThermosphereModel  = "
+            << input.ThermosphereModel  << "\n";
+
+        outfile << "  InitializePerturbations = "
+            << (input.InitializePerturbations ? ".TRUE." : ".FALSE.") << "\n";
+        outfile << "  InitialDensityPerturbation = "
+            << input.InitialDensityPerturbation << "\n";
+        outfile << "  InitialTemperaturePerturbation = "
+            << input.InitialTemperaturePerturbation << "\n";
+        outfile << "  InitialEWWindPerturbation = "
+            << input.InitialEWWindPerturbation << "\n";
+        outfile << "  InitialNSWindPerturbation = "
+            << input.InitialNSWindPerturbation << "\n";
+        outfile << "  InitialVerticalWindPerturbation = "
+            << input.InitialVerticalWindPerturbation << "\n";
+
+        outfile << "  UseTrajectoryFile = " << (input.UseTrajectoryFile ?
+            ".TRUE." : ".FALSE.") << "\n";
+        outfile << "  TrajectoryFileName = '" << input.TrajectoryFileName << "'\n";
+
+        outfile << "  FastModeOn = " << (input.FastModeOn ?
+            ".TRUE." : ".FALSE.") << "\n";
+        outfile << "  ExtraPrecision = " << (input.ExtraPrecision ?
+            ".TRUE." : ".FALSE.") << "\n";
+        outfile << "/\n";
+
+        outfile.close();
+
+        return true;
     }
 
     AirState GRAMAtmosphere::getAirState(double altitude) const {

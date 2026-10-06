@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib>
+#include <memory>
 #include "environment/environment.h"
 #include "helper/data_handling.h"
 #include "integrator/integrator.h"
