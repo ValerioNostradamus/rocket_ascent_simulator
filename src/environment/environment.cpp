@@ -87,14 +87,7 @@ namespace RAS {
         initializeGRAMAtmosphere();
     }
     void GRAMAtmosphere::initializeGRAMAtmosphere() {
-        // not put into the defaults for the struct to be able to allocate
-        // based on a config file (maybe?) or in some other way
-        const GRAMInput input{
-            "spice_path",
-            "data_path",
-            "list_file_name",
-            "col_file_name"
-        };
+        const GRAMInput input;
         createGRAMInputFile(input);
         // then calls the .exe
     }
@@ -173,7 +166,7 @@ namespace RAS {
     }
 
     AirState GRAMAtmosphere::getAirState(double altitude) const {
-
+        // get state from the output of the .exe
         return AirState(0.0,0.0,0.0,0.0);
     }
     void GRAMAtmosphere::info() const {

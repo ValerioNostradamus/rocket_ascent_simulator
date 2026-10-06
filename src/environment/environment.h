@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <vector>
-#include <cmath>
 
 namespace RAS {
     enum class GRAMModel {
@@ -22,10 +21,10 @@ namespace RAS {
         double sound_speed{0.0};
     };
     struct GRAMInput {
-        std::string SpicePath;
-        std::string DataPath;
-        std::string ListFileName;
-        std::string ColumnFileName;
+        std::string SpicePath{"../src/environment/spice/"};
+        std::string DataPath{"../src/environment/data/"};
+        std::string ListFileName{"../output/gram_interface/myref_LIST"};
+        std::string ColumnFileName{"../output/gram_interface/myref_OUTPUT"};
 
         int Year{2000};
         int Month{1};
@@ -76,12 +75,14 @@ namespace RAS {
         [[nodiscard]] AirState getAirState(double altitude) const override;
         void info() const override;
     };
-    // to be implemented
+    // GRAM
+    // still needs the actual program and related files, and the function
+    // to call it
     class GRAMAtmosphere : public Atmosphere {
     private:
-        void initializeGRAMAtmosphere();
-        void initializeGRAMAtmosphere(const GRAMInput& input);
-        bool createGRAMInputFile(const GRAMInput& input);
+        static void initializeGRAMAtmosphere();
+        static void initializeGRAMAtmosphere(const GRAMInput& input);
+        static bool createGRAMInputFile(const GRAMInput& input);
     public:
         GRAMAtmosphere();
         GRAMAtmosphere(const GRAMInput& input);
